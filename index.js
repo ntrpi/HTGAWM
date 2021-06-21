@@ -60,25 +60,32 @@ connection.once( 'open', function()
 
 // https://riptutorial.com/express/example/16315/multiple-routes
 const userRouter = require( './routes/users' );
-app.use( '/users', userRouter );
+app.use( '/api/users', userRouter );
 
 const roleRouter = require( './routes/roles' );
-app.use( '/roles', roleRouter );
+app.use( '/api/roles', roleRouter );
 
 const userRoleRouter = require( './routes/userRoles' );
-app.use( '/userRoles', userRoleRouter );
+app.use( '/api/userRoles', userRoleRouter );
 
 const listingRouter = require( './routes/listings' );
-app.use( '/listings', listingRouter );
+app.use( '/api/listings', listingRouter );
 
 // const messageRouter = require( './routes/messages' );
-// app.use( '/messages', messageRouter );
+// app.use( '/api/messages', messageRouter );
 
 const imageRouter = require( './routes/images' );
-app.use( '/images', imageRouter );
+app.use( '/api/images', imageRouter );
 
 const listingImageRouter = require( './routes/listingImages' );
-app.use( '/listingImages', listingImageRouter );
+app.use( '/api/listingImages', listingImageRouter );
+
+const path = require( 'path' ); // Serve static files from the React frontend app
+app.use( express.static( path.join( __dirname, 'client/build' ) ) ); // Anything that doesn't match the above, send back index.html
+app.get( '*', ( req, res ) =>
+{
+    res.sendFile( path.join( __dirname + '/client/build/index.html' ) );
+} )
 
 app.listen( PORT, function()
 {
